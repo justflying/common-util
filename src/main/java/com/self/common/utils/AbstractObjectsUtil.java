@@ -4,12 +4,12 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /*
- * @Description 用于常用Object的操作
+ * @Description 用于常用Object的操作，抽象的原因在 AbstractDateUtil里面
  * @Author wan
  * @Date 2019/5/20 15:29
  * @Version 1.0
  */
-public class AbstractObjectsUtil {
+public abstract class AbstractObjectsUtil {
 
 
     /**

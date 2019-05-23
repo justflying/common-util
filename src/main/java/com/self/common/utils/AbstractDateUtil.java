@@ -6,7 +6,9 @@ import java.time.format.FormatStyle;
 import java.util.Date;
 
 /*
- * @Description 用于日期转换工具
+ * @Description 用于日期转换工具,把这个类定义成抽象，在使用的时候，继承这个类，
+ *  写的通用的就不会全部堆到这个类，方法太多的话看起来就头大， 那些特别定制的，写在子类里面，
+ *  方便我们直接查看
  * @Author wan
  * @Date 2019/5/20 11:59
  * @Version 1.0
