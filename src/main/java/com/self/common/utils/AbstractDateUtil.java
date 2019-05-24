@@ -3,6 +3,8 @@ package com.self.common.utils;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 
 /*
@@ -50,7 +52,10 @@ public abstract class AbstractDateUtil {
 //        System.out.println(dateToLocalDateTime(new Date(), ZoneId.of("Africa/Cairo")));
 //        System.out.println(dateToLocalDateTime(new Date(), ZoneId.of("Africa/Cairo")));
 //        System.out.println(localDateTimeToDate(LocalDateTime.now(), ZoneId.of("Africa/Cairo")));
-        System.out.println(format(new Date(), YYYY_MM_DD_HH_MM_SS));
+//        System.out.println(format(new Date(), YYYY_MM_DD_HH_MM_SS));
+        System.out.println(LocalDateTime.now().withHour(0).withMinute(0).withSecond(0));
+        System.out.println(LocalDateTime.now().with(ChronoField.MILLI_OF_DAY, 0));
+        //TemporalAdjusters.dayOfWeekInMonth()
     }
 
     /**
@@ -326,27 +331,44 @@ public abstract class AbstractDateUtil {
         return Date.from(transferWithZone(localDateTime,zoneId).atZone(defaultZoneId).toInstant());
     }
 
+    /**
+     * 传入某个日期，然后获取该日期的凌晨时间
+     * eg: 传入: 2019-05-21 16:55:55
+     *     输出 : 2019-05-21 00:00:00
+     * @param date 日期
+     * @return Date 目的日期
+     */
+    public static Date getBeginOfDay(Date date){
 
-//    public static Date getBeginOfDay(Date date){
-//        return getBeginOfDay(date,defaultZoneId);
-//    }
+        return localDateTimeToDate(withZeroMillsOfDay(dateToLocalDateTime(date)));
+    }
 
-//    public static Date getBeginOfDay(Date date,ZoneId zoneId){
-//        if(AbstractObjectsUtil.isAnyNull(date,zoneId))
-//            return null;
-//        LocalDateTime localDateTime = LocalDateTime.ofInstant(date.toInstant(),zoneId);
-//        LocalDateTime begin = LocalDateTime.of(localDateTime.getYear(), localDateTime.getMonthValue(),
-//                localDateTime.getDayOfMonth(), 0, 0, 0);
-//        return Date.from(begin.atZone(zoneId).toInstant());
-//    }
+
 
 //    public static Date getEndOfDay(){
 //
 //    }
 //
 //
-//    public static LocalDateTime withMillsOfDay()
 
+    /**
+     * 该方法的启蒙来自joda-time 这款优秀的时间处理工具
+     * 主要作用就是把传入的时间时分秒全部替换成0,
+     * joda-time 里面能够自己传入Mills,没它做的强大，这里直接默认0。
+     * @return
+     */
+    public static LocalDateTime withZeroMillsOfDay(LocalDateTime localDateTime){
+        if(localDateTime ==null)
+            return null;
+        return localDateTime.with(ChronoField.MILLI_OF_DAY,0);
+    }
+
+    /**
+     * 根据传进来的日期，时区，把传入的时间换算成对应时区的时间
+     * @param source 源日期
+     * @param zoneId 时区
+     * @return LocalDateTime 目标日期
+     */
     public static LocalDateTime transferWithZone(LocalDateTime source,ZoneId zoneId){
         Clock clock = Clock.system(zoneId);
         final Instant now = clock.instant();  // called once
