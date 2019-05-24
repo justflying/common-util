@@ -333,23 +333,55 @@ public abstract class AbstractDateUtil {
 
     /**
      * 传入某个日期，然后获取该日期的凌晨时间
-     * eg: 传入: 2019-05-21 16:55:55
-     *     输出 : 2019-05-21 00:00:00
+     * eg: 传入 : 2019-05-21 16:55:55 Date类型
+     *     输出 : 2019-05-21 00:00:00 Date类型
      * @param date 日期
      * @return Date 目的日期
      */
     public static Date getBeginOfDay(Date date){
-
-        return localDateTimeToDate(withZeroMillsOfDay(dateToLocalDateTime(date)));
+        if (date == null)
+            return null;
+        return localDateTimeToDate(getBeginOfDay(dateToLocalDateTime(date)));
     }
 
+    /**
+     * 传入某个日期，然后获取该日期当天最后时间
+     * eg: 传入 : 2019-05-21 16:55:55 Date类型
+     *     输出 : 2019-05-21 23:59:59 Date类型
+     * @param date 日期
+     * @return Date 目的日期
+     */
+    public static Date getEndOfDay(Date date){
+        if(date ==null)
+            return null;
+        return localDateTimeToDate(getEndOfDay(dateToLocalDateTime(date)));
+    }
 
+    /**
+     * 传入某个日期，然后获取该日期的凌晨时间
+     * eg: 传入 : 2019-05-21 16:55:55 LocalDateTime类型
+     *     输出 : 2019-05-21 00:00:00 LocalDateTime类型
+     * @param localDateTime 日期
+     * @return LocalDateTime 目的日期
+     */
+    public static LocalDateTime getBeginOfDay(LocalDateTime localDateTime) {
+        if (localDateTime == null)
+            return null;
+        return withZeroMillsOfDay(localDateTime);
+    }
 
-//    public static Date getEndOfDay(){
-//
-//    }
-//
-//
+    /**
+     * 传入某个日期，然后获取该日期当天最后时间
+     * eg: 传入 : 2019-05-21 16:55:55 LocalDateTime类型
+     *     输出 : 2019-05-21 23:59:59 LocalDateTime类型
+     * @param localDateTime 日期
+     * @return LocalDateTime 目的日期
+     */
+    public static LocalDateTime getEndOfDay(LocalDateTime localDateTime) {
+        if (localDateTime == null)
+            return null;
+        return localDateTime.withHour(23).withMinute(59).withSecond(59);
+    }
 
     /**
      * 该方法的启蒙来自joda-time 这款优秀的时间处理工具
