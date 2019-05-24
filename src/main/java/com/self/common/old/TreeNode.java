@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * @author: Lien
- * @since: 2019/5/24
+ * @since: 2019/5/24t
  * @description: 标准树节点,其中只包含了需要使用的属性
  */
 public interface TreeNode {
@@ -13,14 +13,14 @@ public interface TreeNode {
      * 获取当前节点ID
      * @return
      */
-    Integer getCurrentId();
+    int getCurrentId();
 
 
     /**
      * 当前父节点ID
      * @return
      */
-    Integer getParentId();
+    int getParentId();
 
     /**
      * 获取所有子节点
