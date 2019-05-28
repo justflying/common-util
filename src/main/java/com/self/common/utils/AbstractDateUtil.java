@@ -441,7 +441,7 @@ public abstract class AbstractDateUtil {
      * 该方法的启蒙来自joda-time 这款优秀的时间处理工具
      * 主要作用就是把传入的时间时分秒全部替换成0,
      * joda-time 里面能够自己传入Mills,没它做的强大，这里直接默认0。
-     * @return
+     * @return LocalDateTime 目的日期
      */
     public static LocalDateTime withZeroMillsOfDay(LocalDateTime localDateTime){
         if(localDateTime ==null)
@@ -456,6 +456,10 @@ public abstract class AbstractDateUtil {
      * @return LocalDateTime 目标日期
      */
     public static LocalDateTime transferWithZone(LocalDateTime source,ZoneId zoneId){
+        if(AbstractObjectsUtil.isAllNull(source,zoneId))
+            return null;
         return LocalDateTime.ofInstant(source.atZone(defaultZoneId).toInstant(),zoneId);
     }
+
+
 }
