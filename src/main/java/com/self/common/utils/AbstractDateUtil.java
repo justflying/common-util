@@ -3,7 +3,10 @@ package com.self.common.utils;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.time.temporal.*;
 import java.util.Date;
+
+import static java.time.temporal.ChronoField.INSTANT_SECONDS;
 
 /*
  * @Description 用于日期转换工具,把这个类定义成抽象，在使用的时候，继承这个类，
@@ -33,24 +36,14 @@ public abstract class AbstractDateUtil {
 
 
     public static void main(String[] args) throws Exception{
-//        System.out.println(format(new Date(),YYYY_MM_DD));
-//        System.out.println(LocalTime.now().format(DateTimeFormatter.ISO_TIME));
-//        System.out.println(dateToLocalDateTime(new Date()).format(LOCAL_DATETIME_FORMAT));
-//        System.out.println(LocalDateTime.parse("2019-02-02 00:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-//        System.out.println(LocalDate.parse("2019-02-02", YYYY_MM_DD));
-//        Date parse = new SimpleDateFormat("yyyy-MM-dd").parse("2019-02-02");
-//        System.out.println(parse);
-//        System.out.println(getBeginOfDay(new Date()));
 
-//        System.out.println(LocalDateTime.now(ZoneId.of("Africa/Cairo")));
-//        System.out.println(Date.from(localDateTime.atZone(defaultZoneId).toInstant()));
-//        System.out.println(transferWithZone(LocalDateTime.now(), ZoneId.of("Africa/Cairo")));
-//        System.out.println(localDateTimeToDate(LocalDateTime.now(),ZoneId.of("Africa/Cairo")));
-//        System.out.println(dateToLocalDateTime(new Date(), defaultZoneId));
-//        System.out.println(dateToLocalDateTime(new Date(), ZoneId.of("Africa/Cairo")));
-//        System.out.println(dateToLocalDateTime(new Date(), ZoneId.of("Africa/Cairo")));
-//        System.out.println(localDateTimeToDate(LocalDateTime.now(), ZoneId.of("Africa/Cairo")));
-        System.out.println(format(new Date(), YYYY_MM_DD_HH_MM_SS));
+//        System.out.println(LocalDateTime.now().with(ChronoField.MILLI_OF_DAY, 0));
+//        System.out.println(LocalDateTime.now().toEpochSecond());
+        LocalDateTime local = LocalDateTime.of(2019, 3, 10, 12, 0, 0);
+        System.out.println("当前日期 : "+LocalDateTime.now());
+        System.out.println("对应时区时间 : "+LocalDateTime.now(ZoneId.of("Africa/Cairo")));
+        System.out.println("处理后的时区时间 : "+ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("Africa/Cairo")));
+        System.out.println("处理后的时区时间2 :"+ transferWithZone(LocalDateTime.now(),ZoneId.of("Africa/Cairo")));
     }
 
     /**
@@ -326,31 +319,147 @@ public abstract class AbstractDateUtil {
         return Date.from(transferWithZone(localDateTime,zoneId).atZone(defaultZoneId).toInstant());
     }
 
-
-//    public static Date getBeginOfDay(Date date){
-//        return getBeginOfDay(date,defaultZoneId);
-//    }
-
-//    public static Date getBeginOfDay(Date date,ZoneId zoneId){
-//        if(AbstractObjectsUtil.isAnyNull(date,zoneId))
-//            return null;
-//        LocalDateTime localDateTime = LocalDateTime.ofInstant(date.toInstant(),zoneId);
-//        LocalDateTime begin = LocalDateTime.of(localDateTime.getYear(), localDateTime.getMonthValue(),
-//                localDateTime.getDayOfMonth(), 0, 0, 0);
-//        return Date.from(begin.atZone(zoneId).toInstant());
-//    }
-
-//    public static Date getEndOfDay(){
-//
-//    }
-//
-//
-//    public static LocalDateTime withMillsOfDay()
-    // 大佬牛逼
-    public static LocalDateTime transferWithZone(LocalDateTime source,ZoneId zoneId){
-        Clock clock = Clock.system(zoneId);
-        final Instant now = clock.instant();  // called once
-        ZoneOffset offset = clock.getZone().getRules().getOffset(now);
-        return LocalDateTime.ofEpochSecond(now.getEpochSecond(), now.getNano(), offset);
+    /**
+     * 传入某个日期，然后获取该日期的凌晨时间
+     * eg: 传入 : 2019-05-21 16:55:55 Date类型
+     *     输出 : 2019-05-21 00:00:00 Date类型
+     * @param date 日期
+     * @return Date 目的日期
+     */
+    public static Date getBeginOfDay(Date date){
+        if (date == null)
+            return null;
+        return localDateTimeToDate(getBeginOfDay(dateToLocalDateTime(date)));
     }
+
+    /**
+     * 传入某个日期，然后获取该日期当天最后时间
+     * eg: 传入 : 2019-05-21 16:55:55 Date类型
+     *     输出 : 2019-05-21 23:59:59 Date类型
+     * @param date 日期
+     * @return Date 目的日期
+     */
+    public static Date getEndOfDay(Date date){
+        if(date ==null)
+            return null;
+        return localDateTimeToDate(getEndOfDay(dateToLocalDateTime(date)));
+    }
+
+    /**
+     * 传入某个日期，然后获取该日期的凌晨时间
+     * eg: 传入 : 2019-05-21 16:55:55 LocalDateTime类型
+     *     输出 : 2019-05-21 00:00:00 LocalDateTime类型
+     * @param localDateTime 日期
+     * @return LocalDateTime 目的日期
+     */
+    public static LocalDateTime getBeginOfDay(LocalDateTime localDateTime) {
+        if (localDateTime == null)
+            return null;
+        return withZeroMillsOfDay(localDateTime);
+    }
+
+    /**
+     * 传入某个日期，然后获取该日期当天最后时间
+     * eg: 传入 : 2019-05-21 16:55:55 LocalDateTime类型
+     *     输出 : 2019-05-21 23:59:59 LocalDateTime类型
+     * @param localDateTime 日期
+     * @return LocalDateTime 目的日期
+     */
+    public static LocalDateTime getEndOfDay(LocalDateTime localDateTime) {
+        if (localDateTime == null)
+            return null;
+        return localDateTime.withHour(23).withMinute(59).withSecond(59);
+    }
+
+    /**
+     * 在某个日期上 增加N天
+     * 理论上直接 localDateTime.plusDays()也能实现，在这只是做一个封装
+     * 提供出去，虽然有点多余，但是从Util的角度上，还是把它写下来了
+     * @param localDateTime 源日期
+     * @param days 天数
+     * @return LocalDateTime 目的日期
+     */
+    public static LocalDateTime plusDays(LocalDateTime localDateTime, long days) {
+        return plusWithUnit(localDateTime,days,ChronoUnit.DAYS);
+    }
+
+    /**
+     * 在某个日期上 增加N小时
+     * 效果等同 localDateTime.plusHours()
+     * @param localDateTime 源日期
+     * @param hours 小时数
+     * @return LocalDateTime 目的日期
+     */
+    public static LocalDateTime plusHours(LocalDateTime localDateTime,long hours){
+        return plusWithUnit(localDateTime,hours,ChronoUnit.HOURS);
+    }
+
+    /**
+     * 在某个日期上，增加几分钟
+     * @param localDateTime 源日期
+     * @param minutes 分钟数
+     * @return LocalDateTime 目的日期
+     */
+    public static LocalDateTime plusMinutes(LocalDateTime localDateTime,long minutes){
+        return plusWithUnit(localDateTime,minutes,ChronoUnit.MINUTES);
+    }
+
+    /**
+     * 在某个日期上，增加几个月
+     * @param localDateTime 源日期
+     * @param months 月数
+     * @return LocalDateTime 目的日期
+     */
+    public static LocalDateTime plusMonths(LocalDateTime localDateTime,long months){
+        return plusWithUnit(localDateTime,months,ChronoUnit.MONTHS);
+    }
+
+    /**
+     * 在某个日期上，增加几年
+     * @param localDateTime 源日期
+     * @param years 年数
+     * @return LocalDateTime 目的日期
+     */
+    public static LocalDateTime plusYears(LocalDateTime localDateTime,long years){
+        return plusWithUnit(localDateTime,years, ChronoUnit.YEARS);
+    }
+
+    /**
+     * 传入日期，单位，计数 然后计算
+     * @param localDateTime  源日期
+     * @param amountToAdd  要被加的数据
+     * @param unit 单位
+     * @return LocalDateTime 目的日期
+     */
+    public static LocalDateTime plusWithUnit(LocalDateTime localDateTime, long amountToAdd, TemporalUnit unit){
+        if(AbstractObjectsUtil.isAnyNull(localDateTime,unit))
+            return null;
+        return localDateTime.plus(amountToAdd,unit);
+    }
+
+    /**
+     * 该方法的启蒙来自joda-time 这款优秀的时间处理工具
+     * 主要作用就是把传入的时间时分秒全部替换成0,
+     * joda-time 里面能够自己传入Mills,没它做的强大，这里直接默认0。
+     * @return LocalDateTime 目的日期
+     */
+    public static LocalDateTime withZeroMillsOfDay(LocalDateTime localDateTime){
+        if(localDateTime ==null)
+            return null;
+        return localDateTime.with(ChronoField.MILLI_OF_DAY,0);
+    }
+
+    /**
+     * 根据传进来的日期，时区，把传入的时间换算成对应时区的时间
+     * @param source 源日期
+     * @param zoneId 时区
+     * @return LocalDateTime 目标日期
+     */
+    public static LocalDateTime transferWithZone(LocalDateTime source,ZoneId zoneId){
+        if(AbstractObjectsUtil.isAllNull(source,zoneId))
+            return null;
+        return LocalDateTime.ofInstant(source.atZone(defaultZoneId).toInstant(),zoneId);
+    }
+
+
 }
