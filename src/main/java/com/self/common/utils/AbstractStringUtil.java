@@ -1,0 +1,62 @@
+package com.self.common.utils;/*
+ * @Description Please describe the role of this class.
+ * @Author wan
+ * @Date 2019/5/30 17:39
+ * @Version 1.0
+ */
+
+import java.util.UUID;
+
+public abstract class AbstractStringUtil {
+
+    /**
+     *  生成UUID
+     * @return String uuid
+     */
+    public static  String getUUID(){
+        return UUID.randomUUID().toString();
+    }
+
+    /**
+     * 该函数思想完全来自于org.apache.commons.lang3的StringUtils.isBlank ,
+     * 也看过Spring的StringUtils.isEmpty,我一开始想写的就是它这种，最后我还是觉得
+     * apache的更适合我想表达的意思，而且使用CharSequence  它包含更多的子类。
+     * 正如我开始写这个这个工具的时候说的，优秀的思想和写法，我要借鉴，也要明白怎么写的。
+     *
+     * 检测传进来的CharSequence 是否空格（"  "）或 空字符串("") 或 null
+     * eg :
+     *    StringUtils.isBlank(null)      = true
+     *    StringUtils.isBlank("")        = true
+     *    StringUtils.isBlank(" ")       = true
+     *    StringUtils.isBlank("bob")     = false
+     *    StringUtils.isBlank("  bob  ") = false
+     * @param cs 要检查的字符序列
+     * @return boolean 结果
+     */
+    public static boolean isBlank(final CharSequence cs){
+        int strLen;
+        if(cs == null || (strLen = cs.length()) == 0){
+            return true;
+        }
+        for (int i = 0; i < strLen ; i++) {
+            if (!Character.isWhitespace(cs.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 检测传进来的CharSequence 是否空字符串("") 或 null
+     * StringUtils.isEmpty(null)      = true
+     * StringUtils.isEmpty("")        = true
+     * StringUtils.isEmpty(" ")       = false
+     * StringUtils.isEmpty("bob")     = false
+     * StringUtils.isEmpty("  bob  ") = false
+     * @param cs 要检查的字符序列
+     * @return boolean 结果
+     */
+    public static boolean isEmpty(final CharSequence cs){
+        return cs ==null || cs.length() ==0;
+    }
+}
