@@ -2,16 +2,13 @@ package com.self.common.old;
 
 
 import lombok.Data;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
+
 
 import java.io.Serializable;
 
 @Data
 public class AjaxPageResult implements Serializable {
-	
-	private final static Logger logger = LoggerFactory.getLogger(AjaxPageResult.class);
+
 	
 	private static final long serialVersionUID = 6681841768477488492L;
 	

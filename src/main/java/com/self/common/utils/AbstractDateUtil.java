@@ -39,11 +39,12 @@ public abstract class AbstractDateUtil {
 
 //        System.out.println(LocalDateTime.now().with(ChronoField.MILLI_OF_DAY, 0));
 //        System.out.println(LocalDateTime.now().toEpochSecond());
-        LocalDateTime local = LocalDateTime.of(2019, 3, 10, 12, 0, 0);
-        System.out.println("当前日期 : "+LocalDateTime.now());
-        System.out.println("对应时区时间 : "+LocalDateTime.now(ZoneId.of("Africa/Cairo")));
-        System.out.println("处理后的时区时间 : "+ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("Africa/Cairo")));
-        System.out.println("处理后的时区时间2 :"+ transferWithZone(LocalDateTime.now(),ZoneId.of("Africa/Cairo")));
+//        LocalDateTime local = LocalDateTime.of(2019, 3, 10, 12, 0, 0);
+//        System.out.println("当前日期 : "+LocalDateTime.now());
+//        System.out.println("对应时区时间 : "+LocalDateTime.now(ZoneId.of("Africa/Cairo")));
+//        System.out.println("处理后的时区时间 : "+ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("Africa/Cairo")));
+//        System.out.println("处理后的时区时间2 :"+ transferWithZone(LocalDateTime.now(),ZoneId.of("Africa/Cairo")));
+        System.out.println(getWeekOfYear(LocalDateTime.now()));
     }
 
     /**
@@ -376,7 +377,7 @@ public abstract class AbstractDateUtil {
      * 理论上直接 localDateTime.plusDays()也能实现，在这只是做一个封装
      * 提供出去，虽然有点多余，但是从Util的角度上，还是把它写下来了
      * @param localDateTime 源日期
-     * @param days 天数
+     * @param days 天数  为负数的时候就是减
      * @return LocalDateTime 目的日期
      */
     public static LocalDateTime plusDays(LocalDateTime localDateTime, long days) {
@@ -461,5 +462,9 @@ public abstract class AbstractDateUtil {
         return LocalDateTime.ofInstant(source.atZone(defaultZoneId).toInstant(),zoneId);
     }
 
-
+    public static String getWeekOfYear(LocalDateTime localDateTime){
+        int week = localDateTime.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
+        int year = localDateTime.getYear();
+        return week+""+year;
+    }
 }
