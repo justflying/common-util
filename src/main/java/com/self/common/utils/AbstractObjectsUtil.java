@@ -22,8 +22,9 @@ public abstract class AbstractObjectsUtil {
      * @return boolean
      */
     public static <T> boolean isAnyNull(T...args){
-        if(args == null)
+        if(args == null){
             return true;
+        }
         return Arrays.stream(args).anyMatch(Objects::isNull);
     }
 

@@ -5,6 +5,7 @@ package com.self.common.utils;/*
  * @Version 1.0
  */
 
+import java.util.Arrays;
 import java.util.UUID;
 
 public abstract class AbstractStringUtil {
@@ -58,5 +59,12 @@ public abstract class AbstractStringUtil {
      */
     public static boolean isEmpty(final CharSequence cs){
         return cs ==null || cs.length() ==0;
+    }
+
+    public static boolean isAnyBlank(CharSequence...charSequences){
+        if (charSequences == null) {
+            return true;
+        }
+        return Arrays.asList(charSequences).stream().anyMatch(AbstractStringUtil::isBlank);
     }
 }
