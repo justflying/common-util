@@ -457,14 +457,35 @@ public abstract class AbstractDateUtil {
      * @return LocalDateTime 目标日期
      */
     public static LocalDateTime transferWithZone(LocalDateTime source,ZoneId zoneId){
-        if(AbstractObjectsUtil.isAllNull(source,zoneId))
+        if(AbstractObjectsUtil.isAllNull(source,zoneId)){
             return null;
+        }
         return LocalDateTime.ofInstant(source.atZone(defaultZoneId).toInstant(),zoneId);
     }
 
+    /**
+     * 获取当前年和本周是一年的第多少周
+     * 例如: 2019-22  就是19年的第22周
+     * @param localDateTime 时间
+     * @return String 结果
+     */
     public static String getWeekOfYear(LocalDateTime localDateTime){
-        int week = localDateTime.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
-        int year = localDateTime.getYear();
-        return week+""+year;
+        if(localDateTime == null)
+            return null;
+        return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-WW"));
+//        int week = localDateTime.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
+//        int year = localDateTime.getYear();
+//        return week+""+year;
+    }
+
+    /**
+     * 获取当前时间是一周的第几天
+     * @param localDateTime 时间
+     * @return Integer 第几天
+     */
+    public static Integer getDayOfWeek(LocalDateTime localDateTime){
+        if(localDateTime == null)
+            return null;
+        return localDateTime.getDayOfWeek().getValue();
     }
 }

@@ -61,10 +61,36 @@ public abstract class AbstractStringUtil {
         return cs ==null || cs.length() ==0;
     }
 
+    /**
+     * 判断传入的多个字符串是否含有 null ,"","   "
+     * isAnyBlank("xxx","   ")        = true
+     * isAnyBlank("xxx","")           = true
+     * isAnyBlank("xxx",null)         = true
+     * isAnyBlank("xxx"," java ")     = false
+     * @param charSequences 字符串列表
+     * @return boolean 判断结果
+     */
     public static boolean isAnyBlank(CharSequence...charSequences){
         if (charSequences == null) {
             return true;
         }
         return Arrays.asList(charSequences).stream().anyMatch(AbstractStringUtil::isBlank);
     }
+
+    /**
+     * 判断传入的多个字符串是否含有null或者""
+     * isAnyBlank("xxx","")           = true
+     * isAnyBlank("xxx",null)         = true
+     * isAnyBlank("xxx","   ")        = false
+     * isAnyBlank("xxx"," java ")     = false
+     * @param charSequences 字符串列表
+     * @return boolean 判断结果
+     */
+    public static boolean isAnyEmpty(CharSequence...charSequences){
+        if (charSequences == null) {
+            return true;
+        }
+        return Arrays.asList(charSequences).stream().anyMatch(AbstractStringUtil::isEmpty);
+    }
+
 }

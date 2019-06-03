@@ -11,11 +11,11 @@ public class ToString {
         return sb.toString();
     }
 
-    private static void getParamAndValue(Object clazs, Class<?> clazz,StringBuffer sb) {
+    private static void getParamAndValue(Object object, Class<?> clazz,StringBuffer sb) {
         Class<?> sc = clazz.getSuperclass();
         Field[] sfields = sc.getDeclaredFields();
         if (sfields.length > 0) {
-            getParamAndValue(clazs, sc,sb);
+            getParamAndValue(object, sc,sb);
         }
         Field[] fields = clazz.getDeclaredFields();
         String className = clazz.getSimpleName();
@@ -23,8 +23,8 @@ public class ToString {
         for (Field f : fields) {
             f.setAccessible(true);
             try {
-                if (null != f.get(clazs)){
-                    sb.append(f.getName() + "=" + f.get(clazs) + ",");
+                if (null != f.get(object)){
+                    sb.append(f.getName() + "=" + f.get(object) + ",");
                 }else {
                     sb.append(f.getName() + "=" + null + ",");
                 }
