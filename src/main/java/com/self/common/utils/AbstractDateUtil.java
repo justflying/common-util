@@ -1,12 +1,15 @@
 package com.self.common.utils;
 
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.time.temporal.*;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Date;
-
-import static java.time.temporal.ChronoField.INSTANT_SECONDS;
 
 /*
  * @Description 用于日期转换工具,把这个类定义成抽象，在使用的时候，继承这个类，
@@ -473,9 +476,6 @@ public abstract class AbstractDateUtil {
         if(localDateTime == null)
             return null;
         return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-WW"));
-//        int week = localDateTime.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
-//        int year = localDateTime.getYear();
-//        return week+""+year;
     }
 
     /**

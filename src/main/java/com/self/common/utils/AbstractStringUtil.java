@@ -1,13 +1,13 @@
-package com.self.common.utils;/*
- * @Description Please describe the role of this class.
+package com.self.common.utils;
+
+import java.util.Arrays;
+import java.util.UUID;
+/*
+ * @Description 创建一个抽象的常用的StringUtil.
  * @Author wan
  * @Date 2019/5/30 17:39
  * @Version 1.0
  */
-
-import java.util.Arrays;
-import java.util.UUID;
-
 public abstract class AbstractStringUtil {
 
     /**
