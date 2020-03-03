@@ -1,12 +1,15 @@
 package com.self.common.utils;
 
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.time.temporal.*;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.Date;
-
-import static java.time.temporal.ChronoField.INSTANT_SECONDS;
 
 /*
  * @Description 用于日期转换工具,把这个类定义成抽象，在使用的时候，继承这个类，
@@ -482,14 +485,38 @@ public abstract class AbstractDateUtil {
      * @return LocalDateTime 目标日期
      */
     public static LocalDateTime transferWithZone(LocalDateTime source,ZoneId zoneId){
-        if(AbstractObjectsUtil.isAllNull(source,zoneId))
+        if(AbstractObjectsUtil.isAllNull(source,zoneId)){
             return null;
+        }
         return LocalDateTime.ofInstant(source.atZone(defaultZoneId).toInstant(),zoneId);
     }
 
+    /**
+     * 获取当前年和本周是一年的第多少周
+     * 例如: 2019-22  就是19年的第22周
+     * @param localDateTime 时间
+     * @return String 结果
+     */
     public static String getWeekOfYear(LocalDateTime localDateTime){
+<<<<<<< HEAD
         int week = localDateTime.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
         int year = localDateTime.getYear();
         return week+"-"+year;
+=======
+        if(localDateTime == null)
+            return null;
+        return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-WW"));
+    }
+
+    /**
+     * 获取当前时间是一周的第几天
+     * @param localDateTime 时间
+     * @return Integer 第几天
+     */
+    public static Integer getDayOfWeek(LocalDateTime localDateTime){
+        if(localDateTime == null)
+            return null;
+        return localDateTime.getDayOfWeek().getValue();
+>>>>>>> a7b4904d228053b5c7e3f26e50454938dba5d342
     }
 }

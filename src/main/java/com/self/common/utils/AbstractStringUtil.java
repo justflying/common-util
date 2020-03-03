@@ -1,13 +1,13 @@
-package com.self.common.utils;/*
- * @Description Please describe the role of this class.
+package com.self.common.utils;
+
+import java.util.Arrays;
+import java.util.UUID;
+/*
+ * @Description 创建一个抽象的常用的StringUtil.
  * @Author wan
  * @Date 2019/5/30 17:39
  * @Version 1.0
  */
-
-import java.util.Arrays;
-import java.util.UUID;
-
 public abstract class AbstractStringUtil {
 
     /**
@@ -61,10 +61,36 @@ public abstract class AbstractStringUtil {
         return cs ==null || cs.length() ==0;
     }
 
+    /**
+     * 判断传入的多个字符串是否含有 null ,"","   "
+     * isAnyBlank("xxx","   ")        = true
+     * isAnyBlank("xxx","")           = true
+     * isAnyBlank("xxx",null)         = true
+     * isAnyBlank("xxx"," java ")     = false
+     * @param charSequences 字符串列表
+     * @return boolean 判断结果
+     */
     public static boolean isAnyBlank(CharSequence...charSequences){
         if (charSequences == null) {
             return true;
         }
         return Arrays.asList(charSequences).stream().anyMatch(AbstractStringUtil::isBlank);
     }
+
+    /**
+     * 判断传入的多个字符串是否含有null或者""
+     * isAnyBlank("xxx","")           = true
+     * isAnyBlank("xxx",null)         = true
+     * isAnyBlank("xxx","   ")        = false
+     * isAnyBlank("xxx"," java ")     = false
+     * @param charSequences 字符串列表
+     * @return boolean 判断结果
+     */
+    public static boolean isAnyEmpty(CharSequence...charSequences){
+        if (charSequences == null) {
+            return true;
+        }
+        return Arrays.asList(charSequences).stream().anyMatch(AbstractStringUtil::isEmpty);
+    }
+
 }
