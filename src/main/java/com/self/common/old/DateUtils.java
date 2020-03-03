@@ -8,11 +8,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-
 public class DateUtils {
 	public static final String DATE_FORMAT_YYYY_MM_DD = "yyyy-MM-dd";
 
@@ -63,30 +58,6 @@ public class DateUtils {
 	// 一天
 	public static final long TIME_ONE_DAY = TIME_ONE_HOUR * 24;
 
-	/**
-	 * 检查2个时间段是否有交集，无所谓前后
-	 * 
-	 * @param beginDate
-	 * @param endDate
-	 * @param newBeginDate
-	 * @param newEndDate
-	 * @return true 有交叉 false 无交叉
-	 */
-	public static boolean checkAcross(Date beginDate, Date endDate, Date newBeginDate, Date newEndDate) {
-		long beginTime = beginDate.getTime();
-		long endTime = endDate.getTime();
-		long newBeginTime = newBeginDate.getTime();
-		long newEndTime = newEndDate.getTime();
-
-		if ((beginTime < newBeginTime && endTime < newBeginTime) && (beginTime < newEndTime && endTime < newEndTime)) {
-			return false;
-		} else if ((beginTime > newEndTime && endTime > newEndTime)
-				&& (beginTime > newBeginTime && endTime > newBeginTime)) {
-			return false;
-		} else {
-			return true;
-		}
-	}
 
 	/**
 	 * 昨天的日期字符串
