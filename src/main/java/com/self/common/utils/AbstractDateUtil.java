@@ -498,14 +498,9 @@ public abstract class AbstractDateUtil {
      * @return String 结果
      */
     public static String getWeekOfYear(LocalDateTime localDateTime){
-<<<<<<< HEAD
         int week = localDateTime.get(ChronoField.ALIGNED_WEEK_OF_YEAR);
         int year = localDateTime.getYear();
         return week+"-"+year;
-=======
-        if(localDateTime == null)
-            return null;
-        return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-WW"));
     }
 
     /**
@@ -517,6 +512,5 @@ public abstract class AbstractDateUtil {
         if(localDateTime == null)
             return null;
         return localDateTime.getDayOfWeek().getValue();
->>>>>>> a7b4904d228053b5c7e3f26e50454938dba5d342
     }
 }
