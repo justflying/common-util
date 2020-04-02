@@ -74,7 +74,7 @@ public abstract class AbstractStringUtil {
         if (charSequences == null) {
             return true;
         }
-        return Arrays.asList(charSequences).stream().anyMatch(AbstractStringUtil::isBlank);
+        return Arrays.stream(charSequences).anyMatch(AbstractStringUtil::isBlank);
     }
 
     /**
@@ -90,7 +90,18 @@ public abstract class AbstractStringUtil {
         if (charSequences == null) {
             return true;
         }
-        return Arrays.asList(charSequences).stream().anyMatch(AbstractStringUtil::isEmpty);
+        return Arrays.stream(charSequences).anyMatch(AbstractStringUtil::isEmpty);
     }
 
+    /**
+     * 判断传入的多个字符串是否全部为空
+     * @param charSequences 字符串列表
+     * @return boolean
+     */
+    public static boolean isAllEmpty(CharSequence...charSequences){
+        if(charSequences == null){
+            return true;
+        }
+        return Arrays.stream(charSequences).allMatch(AbstractStringUtil::isEmpty);
+    }
 }

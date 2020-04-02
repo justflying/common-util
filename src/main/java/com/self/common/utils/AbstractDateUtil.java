@@ -23,20 +23,27 @@ public abstract class AbstractDateUtil {
 
     // 默认区域Id
     private static final ZoneId defaultZoneId = ZoneId.systemDefault();
+
     // yyyyMMdd 格式
     private static final DateTimeFormatter YYYYMMDD  = DateTimeFormatter.BASIC_ISO_DATE;
+
     // yyyy-MM-dd 格式
     private static final DateTimeFormatter YYYY_MM_DD = DateTimeFormatter.ISO_LOCAL_DATE;
+
     // HH:mm:ss 格式
     private static final DateTimeFormatter HH_MM_SS = DateTimeFormatter.ofPattern("HH:mm:ss");
+
     // HH:mm:ss.SSS 格式
     private static final DateTimeFormatter HH_MM_SS_SSS = DateTimeFormatter.ISO_LOCAL_TIME;
+
     // yyyy-MM-dd HH:mm:ss 格式
     private static final DateTimeFormatter YYYY_MM_DD_HH_MM_SS = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     //xxxx年x月x日 星期x xx:xx:xx 格式
-    private static final DateTimeFormatter LOCAL_DATETIME_FORMAT  = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM);
+    private static final DateTimeFormatter LOCAL_DATETIME_FORMAT  =
+            DateTimeFormatter.ofLocalizedDateTime(FormatStyle.FULL, FormatStyle.MEDIUM);
 
-
+    private static final DateTimeFormatter YYYY_WW = DateTimeFormatter.ofPattern("yyyy-WW");
 
     public static void main(String[] args) throws Exception{
 
@@ -475,7 +482,7 @@ public abstract class AbstractDateUtil {
     public static String getWeekOfYear(LocalDateTime localDateTime){
         if(localDateTime == null)
             return null;
-        return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-WW"));
+        return localDateTime.format(YYYY_WW);
     }
 
     /**

@@ -29,7 +29,7 @@ public abstract class AbstractObjectsUtil {
     }
 
     /**
-     * 判断传入数据是否全为空的
+     * 判断传入的数据是否全为空
      * 结果:
      *  1. true  全为空
      *  2. false 不全为空
@@ -41,5 +41,21 @@ public abstract class AbstractObjectsUtil {
         if(args == null)
             return true;
         return Arrays.stream(args).allMatch(Objects::isNull);
+    }
+
+    /**
+     * 判断传入的数据是否全部不为空
+     *  结果：
+     *      1. false 有部分数据为空或者全部都为空
+     *      2. true  全部数据不为空
+     * @param args 参数
+     * @param <T> 泛型
+     * @return boolean
+     */
+    public static <T> boolean  isAllNotNull(T...args){
+        if(args == null){
+            return false;
+        }
+        return Arrays.stream(args).allMatch(Objects::nonNull);
     }
 }
