@@ -3,12 +3,12 @@ package com.self.common.utils;
 import java.util.Arrays;
 import java.util.UUID;
 /*
- * @Description 创建一个抽象的常用的StringUtil.
+ * @Description 创建一个常用的StringUtil.
  * @Author wan
  * @Date 2019/5/30 17:39
  * @Version 1.0
  */
-public abstract class AbstractStringUtil {
+public class StringUtil {
 
     /**
      *  生成UUID
@@ -74,14 +74,14 @@ public abstract class AbstractStringUtil {
         if (charSequences == null) {
             return true;
         }
-        return Arrays.stream(charSequences).anyMatch(AbstractStringUtil::isBlank);
+        return Arrays.stream(charSequences).anyMatch(StringUtil::isBlank);
     }
 
     /**
      * 判断传入的多个字符串是否含有null或者""
+     * isAnyBlank("xxx","   ")        = false
      * isAnyBlank("xxx","")           = true
      * isAnyBlank("xxx",null)         = true
-     * isAnyBlank("xxx","   ")        = false
      * isAnyBlank("xxx"," java ")     = false
      * @param charSequences 字符串列表
      * @return boolean 判断结果
@@ -90,7 +90,7 @@ public abstract class AbstractStringUtil {
         if (charSequences == null) {
             return true;
         }
-        return Arrays.stream(charSequences).anyMatch(AbstractStringUtil::isEmpty);
+        return Arrays.stream(charSequences).anyMatch(StringUtil::isEmpty);
     }
 
     /**
@@ -102,6 +102,6 @@ public abstract class AbstractStringUtil {
         if(charSequences == null){
             return true;
         }
-        return Arrays.stream(charSequences).allMatch(AbstractStringUtil::isEmpty);
+        return Arrays.stream(charSequences).allMatch(StringUtil::isEmpty);
     }
 }

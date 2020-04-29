@@ -5,5 +5,5 @@ package com.self.common.utils;
  * @Date 2019/6/3 18:03
  * @Version 1.0
  */
-public class AbstractDesUtil {
+public class DesUtil {
 }

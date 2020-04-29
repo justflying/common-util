@@ -9,7 +9,7 @@ import java.util.Objects;
  * @Date 2019/5/20 15:29
  * @Version 1.0
  */
-public abstract class AbstractObjectsUtil {
+public class ObjectsUtil {
 
 
     /**

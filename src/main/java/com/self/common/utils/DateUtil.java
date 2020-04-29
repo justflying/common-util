@@ -12,14 +12,12 @@ import java.time.temporal.TemporalUnit;
 import java.util.Date;
 
 /*
- * @Description 用于日期转换工具,把这个类定义成抽象，在使用的时候，继承这个类，
- *  写的通用的就不会全部堆到这个类，方法太多的话看起来就头大， 那些特别定制的，写在子类里面，
- *  方便我们直接查看
+ * @Description
  * @Author wan
  * @Date 2019/5/20 11:59
  * @Version 1.0
  */
-public abstract class AbstractDateUtil {
+public  class DateUtil {
 
     // 默认区域Id
     private static final ZoneId defaultZoneId = ZoneId.systemDefault();
@@ -64,7 +62,7 @@ public abstract class AbstractDateUtil {
      * @return String 格式化后的日期字符串
      */
     public static String format(Date date,DateTimeFormatter dateTimeFormatter) {
-        if (AbstractObjectsUtil.isAnyNull(date,dateTimeFormatter))
+        if (ObjectsUtil.isAnyNull(date,dateTimeFormatter))
             return null;
         return formatWithZone(date,dateTimeFormatter,defaultZoneId);
     }
@@ -79,7 +77,7 @@ public abstract class AbstractDateUtil {
      * @return String 格式化后的日期字符串
      */
     public static String formatWithZone(Date date,DateTimeFormatter dateTimeFormatter,ZoneId zoneId){
-        if(AbstractObjectsUtil.isAnyNull(date,zoneId))
+        if(ObjectsUtil.isAnyNull(date,zoneId))
             return null;
         return formatWithZone(dateToLocalDateTime(date, zoneId),dateTimeFormatter,zoneId);
     }
@@ -91,7 +89,7 @@ public abstract class AbstractDateUtil {
      * @return String 格式化后的日期字符串
      */
     public static String format(LocalDate localDate,DateTimeFormatter dateTimeFormatter) {
-        if (AbstractObjectsUtil.isAnyNull(localDate,dateTimeFormatter))
+        if (ObjectsUtil.isAnyNull(localDate,dateTimeFormatter))
             return null;
         return formatWithZone(localDate,dateTimeFormatter,defaultZoneId);
     }
@@ -108,7 +106,7 @@ public abstract class AbstractDateUtil {
      * @return String 格式化后的日期字符串
      */
     public static String formatWithZone(LocalDate localDate,DateTimeFormatter dateTimeFormatter,ZoneId zoneId) {
-        if (AbstractObjectsUtil.isAnyNull(localDate,dateTimeFormatter,zoneId))
+        if (ObjectsUtil.isAnyNull(localDate,dateTimeFormatter,zoneId))
             return null;
         return formatWithZone(localDate.atStartOfDay(),dateTimeFormatter,zoneId);
     }
@@ -120,7 +118,7 @@ public abstract class AbstractDateUtil {
      * @return  String格式化后的日期字符串
      */
     public static String format(LocalDateTime localDateTime,DateTimeFormatter dateTimeFormatter){
-        if(AbstractObjectsUtil.isAnyNull(localDateTime,dateTimeFormatter))
+        if(ObjectsUtil.isAnyNull(localDateTime,dateTimeFormatter))
             return null;
         return formatWithZone(localDateTime,dateTimeFormatter,defaultZoneId);
     }
@@ -133,7 +131,7 @@ public abstract class AbstractDateUtil {
      * @return String格式化后的日期字符串
      */
     public static String formatWithZone(LocalDateTime localDateTime,DateTimeFormatter dateTimeFormatter,ZoneId zoneId){
-        if(AbstractObjectsUtil.isAnyNull(localDateTime,dateTimeFormatter,zoneId))
+        if(ObjectsUtil.isAnyNull(localDateTime,dateTimeFormatter,zoneId))
             return null;
         return localDateTime.atZone(zoneId).format(dateTimeFormatter);
     }
@@ -144,7 +142,7 @@ public abstract class AbstractDateUtil {
      * @return String 格式化后的日期字符串
      */
     public static String format(LocalTime localTime,DateTimeFormatter dateTimeFormatter){
-        if(AbstractObjectsUtil.isAnyNull(localTime,dateTimeFormatter))
+        if(ObjectsUtil.isAnyNull(localTime,dateTimeFormatter))
             return null;
         return formatWithZone(localTime,dateTimeFormatter,defaultZoneId);
     }
@@ -158,7 +156,7 @@ public abstract class AbstractDateUtil {
      * @return String 格式化后的日期字符串
      */
     public static String formatWithZone(LocalTime localTime,DateTimeFormatter dateTimeFormatter,ZoneId zoneId){
-        if(AbstractObjectsUtil.isAnyNull(localTime,dateTimeFormatter,zoneId))
+        if(ObjectsUtil.isAnyNull(localTime,dateTimeFormatter,zoneId))
             return null;
         return localTime.atDate(LocalDate.now()).atZone(zoneId).format(dateTimeFormatter);
     }
@@ -172,7 +170,7 @@ public abstract class AbstractDateUtil {
      * @return LocalDate 格式化后的时间
      */
     public static LocalDate parseLocalDate(String string,DateTimeFormatter dateTimeFormatter){
-        if(AbstractObjectsUtil.isAnyNull(string,dateTimeFormatter))
+        if(ObjectsUtil.isAnyNull(string,dateTimeFormatter))
             return null;
         return parseLocalDateWithZone(string,dateTimeFormatter,defaultZoneId);
     }
@@ -185,7 +183,7 @@ public abstract class AbstractDateUtil {
      * @return LocalDate 格式化后的日期
      */
     public static LocalDate parseLocalDateWithZone(String string,DateTimeFormatter dateTimeFormatter,ZoneId zoneId){
-        if(AbstractObjectsUtil.isAnyNull(string,dateTimeFormatter,zoneId))
+        if(ObjectsUtil.isAnyNull(string,dateTimeFormatter,zoneId))
             return null;
         return LocalDate.parse(string, dateTimeFormatter).atStartOfDay(zoneId).toLocalDate();
     }
@@ -197,7 +195,7 @@ public abstract class AbstractDateUtil {
      * @return LocalDateTime 日期
      */
     public static LocalDateTime parseLocalDateTime(String string,DateTimeFormatter dateTimeFormatter){
-        if(AbstractObjectsUtil.isAnyNull(string,dateTimeFormatter))
+        if(ObjectsUtil.isAnyNull(string,dateTimeFormatter))
             return null;
         return parseLocalDateTimeWithZone(string,dateTimeFormatter,defaultZoneId);
     }
@@ -210,7 +208,7 @@ public abstract class AbstractDateUtil {
      * @return LocalDateTime 日期
      */
     public static LocalDateTime parseLocalDateTimeWithZone(String string,DateTimeFormatter dateTimeFormatter,ZoneId zoneId){
-        if(AbstractObjectsUtil.isAnyNull(string,dateTimeFormatter,zoneId))
+        if(ObjectsUtil.isAnyNull(string,dateTimeFormatter,zoneId))
             return null;
         return LocalDateTime.parse(string, dateTimeFormatter).atZone(zoneId).toLocalDateTime();
     }
@@ -233,7 +231,7 @@ public abstract class AbstractDateUtil {
      * @return LocalTime 时间
      */
     public static LocalTime  dateToLocalTime(Date date,ZoneId zoneId){
-        if(AbstractObjectsUtil.isAnyNull(date,zoneId))
+        if(ObjectsUtil.isAnyNull(date,zoneId))
             return null;
         return dateToLocalDateTime(date,zoneId) == null ? null : dateToLocalDateTime(date,zoneId).toLocalTime();
     }
@@ -256,7 +254,7 @@ public abstract class AbstractDateUtil {
      * @return LocalDate 日期
      */
     public static LocalDate  dateToLocalDate(Date date,ZoneId zoneId){
-        if(AbstractObjectsUtil.isAnyNull(date,zoneId))
+        if(ObjectsUtil.isAnyNull(date,zoneId))
             return null;
         return dateToLocalDateTime(date,zoneId) == null ? null :  dateToLocalDateTime(date,zoneId).toLocalDate();
     }
@@ -279,7 +277,7 @@ public abstract class AbstractDateUtil {
      * @return LocalDateTime 日期
      */
     public static LocalDateTime dateToLocalDateTime(Date date,ZoneId zoneId){
-        if(AbstractObjectsUtil.isAnyNull(date,zoneId))
+        if(ObjectsUtil.isAnyNull(date,zoneId))
             return null;
         return LocalDateTime.ofInstant(date.toInstant(), zoneId);
     }
@@ -302,7 +300,7 @@ public abstract class AbstractDateUtil {
      * @return  Date 日期
      */
     public static Date localDateToDate(LocalDate localDate,ZoneId zoneId){
-        if(AbstractObjectsUtil.isAnyNull(localDate,zoneId))
+        if(ObjectsUtil.isAnyNull(localDate,zoneId))
             return null;
         return localDateTimeToDate(localDate.atStartOfDay(),zoneId);
     }
@@ -325,7 +323,7 @@ public abstract class AbstractDateUtil {
      * @return Date 日期
      */
     public static Date localDateTimeToDate(LocalDateTime localDateTime,ZoneId zoneId){
-        if(AbstractObjectsUtil.isAnyNull(localDateTime,zoneId))
+        if(ObjectsUtil.isAnyNull(localDateTime,zoneId))
             return null;
         return Date.from(transferWithZone(localDateTime,zoneId).atZone(defaultZoneId).toInstant());
     }
@@ -443,7 +441,7 @@ public abstract class AbstractDateUtil {
      * @return LocalDateTime 目的日期
      */
     public static LocalDateTime plusWithUnit(LocalDateTime localDateTime, long amountToAdd, TemporalUnit unit){
-        if(AbstractObjectsUtil.isAnyNull(localDateTime,unit))
+        if(ObjectsUtil.isAnyNull(localDateTime,unit))
             return null;
         return localDateTime.plus(amountToAdd,unit);
     }
@@ -467,7 +465,7 @@ public abstract class AbstractDateUtil {
      * @return LocalDateTime 目标日期
      */
     public static LocalDateTime transferWithZone(LocalDateTime source,ZoneId zoneId){
-        if(AbstractObjectsUtil.isAllNull(source,zoneId)){
+        if(ObjectsUtil.isAllNull(source,zoneId)){
             return null;
         }
         return LocalDateTime.ofInstant(source.atZone(defaultZoneId).toInstant(),zoneId);
