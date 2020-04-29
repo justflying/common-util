@@ -1,6 +1,9 @@
 package com.self.common.utils;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /*
@@ -44,18 +47,38 @@ public class ObjectsUtil {
     }
 
     /**
-     * 判断传入的数据是否全部不为空
-     *  结果：
-     *      1. false 有部分数据为空或者全部都为空
-     *      2. true  全部数据不为空
-     * @param args 参数
+     * 判断传入数据是否全不为空的
+     * 结果:
+     *  1. true 全部不为空
+     *  2. false 全部为空
+     * @param args 入参
      * @param <T> 泛型
      * @return boolean
      */
-    public static <T> boolean  isAllNotNull(T...args){
-        if(args == null){
+    public static <T> boolean isAllNotNull(T...args){
+        if(args == null)
             return false;
-        }
-        return Arrays.stream(args).allMatch(Objects::nonNull);
+        return ! isAllNull(args);
     }
+
+    /**
+     * 根据传入对象，获取对象定义字段
+     * @param t  对象
+     * @param <T> 泛型
+     * @return List<String> 对象字段名集合
+     */
+    public static <T> List<String> getFieldNames(T t){
+        if(t == null){
+            return new ArrayList<>();
+        }
+        Field[] declaredFields = t.getClass().getDeclaredFields();
+        List<String> fieldNames = new ArrayList<>();
+        for (Field declaredField : declaredFields) {
+            String name = declaredField.getName();
+            fieldNames.add(name);
+        }
+        return fieldNames;
+    }
+
+
 }

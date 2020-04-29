@@ -56,6 +56,19 @@ public  class DateUtil {
     }
 
     /**
+     * 根据传入的日期以及格式来格式化日期
+     * 注意： 如果传入的格式不合格，这里是没办法校验的，需要使用者自己确定格式正确性
+     * @param date 日期
+     * @param format 格式
+     * @return String  格式化日期
+     */
+    public static String format(Date date,String format){
+        if (AbstractObjectsUtil.isAnyNull(date,format))
+            return null;
+        return format(date, DateTimeFormatter.ofPattern(format));
+    }
+
+    /**
      * 传入日期，以及格式化方式，把日期类型转换为字符串
      * @param date 日期 java8之前使用
      * @param dateTimeFormatter 格式 java8以后的格式
@@ -82,6 +95,18 @@ public  class DateUtil {
         return formatWithZone(dateToLocalDateTime(date, zoneId),dateTimeFormatter,zoneId);
     }
 
+    /**
+     *  根据传入的日期和格式来格式化日期
+     *  注意： 如果传入的格式不合格，这里是没办法校验的，需要使用者自己确定格式正确性
+     * @param localDate 日期
+     * @param format 格式
+     * @return String 格式化日期
+     */
+    public static String format(LocalDate localDate,String format){
+        if (AbstractObjectsUtil.isAnyNull(localDate,format))
+            return null;
+        return format(localDate,DateTimeFormatter.ofPattern(format));
+    }
     /**
      * 传入日期，格式化方式  把日期类型转换为字符串
      * @param localDate 日期 java8以后常用的日期类
@@ -441,7 +466,7 @@ public  class DateUtil {
      * @return LocalDateTime 目的日期
      */
     public static LocalDateTime plusWithUnit(LocalDateTime localDateTime, long amountToAdd, TemporalUnit unit){
-        if(ObjectsUtil.isAnyNull(localDateTime,unit))
+        if(AbstractObjectsUtil.isAnyNull(localDateTime,amountToAdd,unit))
             return null;
         return localDateTime.plus(amountToAdd,unit);
     }
